@@ -1,26 +1,44 @@
+import { PrismaClient } from '@prisma/client';
 import express from "express";
-// A function to get the routes.
-// All route definitions are in one place and we only need to export one thing
+import jwt from 'jsonwebtoken';
+
+const prisma = new PrismaClient();
+
 function getAuthRoutes() {
   const router = express.Router();
 
-
-  // 'http://localhost:3001/api/v1/auth/current-user'
-  router.get('/current-user', (req, res) => {
-    res.status(200).json({
-      user: {
-        id: "1234",
-        username: "test",
-        email: "test@example.com"
-      }
-    })
-  })
+  router.post('/google-login', googleLogin);
 
   return router;
 }
 
 // All controllers/utility functions here
-async function googleLogin(req, res) {}
+async function googleLogin(req, res) {
+  const { username, email } = req.body
+
+  let user = await prisma.user.findUnique({
+    where: {
+      email
+    }
+  })
+
+  if (!user) {
+    await prisma.user.create({
+      data: {
+        username,
+        email
+      }
+    })
+  }
+
+  const tokenPayload = { id: user.id };
+  const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRE
+  });
+
+  res.cookie('token', token, { httpOnly: true })
+  res.status(200).send(token);
+}
 
 async function me(req, res) {}
 
