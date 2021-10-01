@@ -11,6 +11,20 @@ function getVideoRoutes() {
   return router;
 }
 
+async function getVideoViews(videos) {
+  for (const video of videos) {
+    const views = await prisma.view.count({
+      where: {
+        videoId: {
+          equals: video.id,
+        },
+      },
+    });
+    video.views = views;
+  }
+  return videos;
+}
+
 async function getRecommendedVideos(req, res) {
   let videos = await prisma.video.findMany({
     include: {
@@ -24,7 +38,9 @@ async function getRecommendedVideos(req, res) {
   if (!videos.length) {
     return res.status(200).json({ videos })
   }
-  
+
+  videos = await getVideoViews(videos)
+
   return res.status(200).json({ videos })
 }
 
