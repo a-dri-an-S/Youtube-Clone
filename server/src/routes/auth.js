@@ -43,7 +43,11 @@ async function googleLogin(req, res) {
   res.status(200).send(token);
 }
 
-async function me(req, res) {}
+async function me(req, res) {
+  console.log(req.user)
+
+  res.status(200).json({ user: req.user });
+}
 
 function signout(req, res) {}
 
