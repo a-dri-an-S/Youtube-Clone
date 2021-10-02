@@ -12,7 +12,7 @@ function getVideoRoutes() {
   router.get('/search', searchVideos);
   router.get('/:videoId/view', getAuthUser, addVideoView);
   router.get('/:videoId/like', protect, likeVideo);
-  router.get('/:videoId/like', protect, dislikeVideo);
+  router.get('/:videoId/dislike', protect, dislikeVideo);
 
   router.post('/', protect, addVideo);
   router.post('/:videoId/comments', protect, addComment);
