@@ -11,11 +11,12 @@ function getUserRoutes() {
 
   router.get('/liked-videos', protect, getLikedVideos);
 
+
   return router;
 }
 
-async function getLikedVideos(req, res, next) {
-  const videoLikes = await prisma.videoLike.findMany({
+async function getVideos(model, req, res) {
+  const videoRelations = await model.findMany({
     where: {
       userId: req.user.id
     },
@@ -24,7 +25,7 @@ async function getLikedVideos(req, res, next) {
     }
   });
 
-  const videoIds = videoLikes.map(videoLike => videoLike.videoId);
+  const videoIds = videoRelations.map(videoLike => videoLike.videoId);
 
   let videos = await prisma.video.findMany({
     where: {
@@ -45,7 +46,13 @@ async function getLikedVideos(req, res, next) {
   res.status(200).json({ videos });
 }
 
-async function getHistory(req, res, next) {}
+async function getLikedVideos(req, res) {
+  
+}
+
+async function getHistory(req, res) {
+
+}
 
 async function toggleSubscribe(req, res, next) {}
 
