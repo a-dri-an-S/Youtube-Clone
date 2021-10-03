@@ -13,6 +13,7 @@ function getVideoRoutes() {
   router.get('/:videoId/view', getAuthUser, addVideoView);
   router.get('/:videoId/like', protect, likeVideo);
   router.get('/:videoId/dislike', protect, dislikeVideo);
+  router.get('/:videoId', getAuthUser, getVideo);
 
   router.post('/', protect, addVideo);
   router.post('/:videoId/comments', protect, addComment);
@@ -393,7 +394,148 @@ async function dislikeVideo(req, res, next) {
   res.status(200).json({})
 }
 
-async function getVideo(req, res, next) {}
+async function getVideo(req, res, next) {
+  const video = await prisma.video.findUnique({
+    where: {
+      id: req.params.videoId
+    },
+    include: {
+      user: true,
+      comments: {
+        include: {
+          user: true
+        },
+        orderBy: {
+          createdAt: "desc"
+        }
+      }
+    }
+  });
+
+  if (!video) {
+    return next({
+      message: `No video found with id: "${req.params.videoId}"`,
+      statusCode: 404
+    })
+  }
+
+  let isVideoMine = false;
+  let isLiked = false;
+  let isDisliked = false;
+  let isSubscribed = false;
+  let isViewed = false;
+
+  if (req.user) {
+    isVideoMine = req.user.id === video.userId;
+
+    isLiked = await prisma.videoLike.findFirst({
+      where: {
+        userId: {
+          equals: req.user.id
+        },
+        videoId: {
+          equals: req.params.videoId
+        }, 
+        like: {
+          equals: 1
+        }
+      }
+    })
+  
+    isDisliked = await prisma.videoLike.findFirst({
+      where: {
+        userId: {
+          equals: req.user.id
+        },
+        videoId: {
+          equals: req.params.videoId
+        }, 
+        like: {
+          equals: -1
+        }
+      }
+    })
+
+
+  }
+
+  isViewed = await prisma.view.findFirst({
+    where: {
+      userId: {
+        equals: req.user.id
+      },
+      videoId: {
+        equals: video.id
+      }
+    }
+  })
+
+  isSubscribed = await prisma.subscription.findFirst({
+    where: {
+      subscriberId: {
+        equals: req.user.id
+      },
+      subscribedToId: {
+        equals: video.userId
+      }
+    }
+  })
+
+  const likesCount = await prisma.videoLike.count({
+    where: {
+      AND: {
+        videoId: {
+          equals: req.params.videoId
+        },
+        like: {
+          equals: 1
+        }
+      }
+    }
+  })
+  
+  const dislikesCount = await prisma.videoLike.count({
+    where: {
+      AND: {
+        videoId: {
+          equals: req.params.videoId
+        },
+        like: {
+          equals: -1
+        }
+      }
+    }
+  });
+
+  const views = await prisma.view.count({
+    where: {
+      videoId: {
+        equals: video.id,
+      }
+    }
+  })
+
+  const subscribersCount = await prisma.subscription.count({
+    where: {
+      subscribedToId: {
+        equals: video.userId
+      }
+    }
+  })
+
+  video.commentCount = video.comments.length;
+  video.isLiked = Boolean(isLiked);
+  video.isDisliked = Boolean(isDisliked);
+  video.likesCount = likesCount;
+  video.dislikesCount = dislikesCount;
+  video.isVideoMine = isVideoMine;
+  video.views = views;
+  video.isSubscribed = Boolean(isSubscribed);
+  video.isViewed = Boolean(isViewed);
+  video.subscribersCount = subscribersCount;
+
+  res.status(200).json({ video });
+}
 
 async function deleteVideo(req, res) {}
 
