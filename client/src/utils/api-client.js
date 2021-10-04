@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const client = axios.create({
+export const client = axios.create({
     baseURL: "/api/v1"
 })
 
@@ -10,7 +10,7 @@ export function authenticate(response) {
         url: "/auth/google-login",
         data: { idToken: response.tokenId } 
     })
-    .then(res => {
+    .then(response => {
         console.log("Sign in success: ", response);
         window.location.assign(window.location.href)
     })

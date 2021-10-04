@@ -4,7 +4,9 @@ import React from "react";
 import Avatar from "../styles/Avatar";
 import { ChannelIcon, SignoutIcon } from "./Icons";
 
-function UserDropdown() {
+function UserDropdown({ user }) {
+  console.log(user);
+
   return (
     <Menu>
       <MenuButton>
