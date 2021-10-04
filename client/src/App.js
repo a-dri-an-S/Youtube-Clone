@@ -15,12 +15,15 @@ import Trending from "./pages/Trending";
 import WatchVideo from "./pages/WatchVideo";
 import YourVideos from "./pages/YourVideos";
 import Container from "./styles/Container";
+import { useLocationChange } from "./hooks/use-location-change";
 
 function App() {
 
   const [isSideBarOpen, setSideBarOpen] = useState(false);
-
+  const handleCloseSidebar = () => setSideBarOpen(false);
   const toggleSidebarOpen = () => setSideBarOpen(!isSideBarOpen);
+
+  useLocationChange(handleCloseSidebar);
 
   return <>
     <Navbar toggleSidebarOpen={toggleSidebarOpen}/>
