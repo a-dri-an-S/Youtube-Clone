@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import MobileNavbar from "./components/MobileNavbar";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
-import Subscriptions from "./components/Subscriptions";
+import Subscriptions from "./pages/Subscriptions";
 import Channel from "./pages/Channel";
 import History from "./pages/History";
 import Home from "./pages/Home";

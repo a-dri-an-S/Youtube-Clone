@@ -1,6 +1,7 @@
 import React from "react";
 import Wrapper from "../styles/Navbar";
 import GoogleAuth from "./GoogleAuth";
+import { NavLink } from "react-router-dom";
 import { AppsIcon, HamburgerIcon, LogoIcon, SettingsIcon } from "./Icons";
 import Search from "./Search";
 
@@ -10,12 +11,14 @@ function Navbar() {
       <div className="logo flex-row">
         <HamburgerIcon className="toggle-navhandler" />
         <span>
-          <LogoIcon
-            style={{
-              width: 80,
-              height: 24,
-            }}
-          />
+          <NavLink to="/">
+            <LogoIcon
+              style={{
+                width: 80,
+                height: 24,
+              }}
+            />
+          </NavLink>
         </span>
       </div>
 
