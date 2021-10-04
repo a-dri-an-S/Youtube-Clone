@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Switch, Route } from 'react-router-dom';
 import MobileNavbar from "./components/MobileNavbar";
 import Navbar from "./components/Navbar";
@@ -17,9 +17,14 @@ import YourVideos from "./pages/YourVideos";
 import Container from "./styles/Container";
 
 function App() {
+
+  const [isSideBarOpen, setSideBarOpen] = useState(false);
+
+  const toggleSidebarOpen = () => setSideBarOpen(!isSideBarOpen);
+
   return <>
-    <Navbar />
-    <Sidebar />
+    <Navbar toggleSidebarOpen={toggleSidebarOpen}/>
+    <Sidebar isSideBarOpen={isSideBarOpen}/>
     <MobileNavbar />
     <Container>
       <Switch>

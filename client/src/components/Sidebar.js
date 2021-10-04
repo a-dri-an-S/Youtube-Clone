@@ -15,9 +15,9 @@ import {
 } from "./Icons";
 import SidebarAuth from "./SidebarAuth";
 
-function Sidebar() {
+function Sidebar({ isSideBarOpen }) {
   return (
-    <Wrapper>
+    <Wrapper open={isSideBarOpen}>
       <NavLink exact to="/" activeClassName='active'>
         <div className="icon">
           <HomeIcon />
