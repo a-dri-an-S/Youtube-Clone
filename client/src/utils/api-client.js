@@ -1,4 +1,23 @@
-export function authenticate() {}
+import axios from 'axios';
+
+const client = axios.create({
+    baseURL: "/api/v1"
+})
+
+export function authenticate(response) {
+    client({
+        method: "POST",
+        url: "/auth/google-login",
+        data: { idToken: response.tokenId } 
+    })
+    .then(res => {
+        console.log("Sign in success: ", response);
+        window.location.assign(window.location.href)
+    })
+    .catch(error => {
+        console.log("Sign In error: ", error);
+    })
+}
 
 export async function signoutUser() {}
 
