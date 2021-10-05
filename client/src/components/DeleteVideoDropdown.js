@@ -3,7 +3,7 @@ import "@reach/menu-button/styles.css";
 import React from "react";
 import { DeleteIcon, SettingsIcon } from "./Icons";
 
-function DeleteVideoDropdown() {
+function DeleteVideoDropdown({video}) {
   const isVideoAuthor = true;
 
   if (isVideoAuthor) {
