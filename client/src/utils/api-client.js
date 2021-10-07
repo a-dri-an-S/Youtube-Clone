@@ -27,7 +27,10 @@ export async function signoutUser() {
 
 export async function updateUser() {}
 
-export async function addVideoView() {}
+export async function addVideoView(videoId) {
+    await client.get(`/videos/${videoId}/view`);
+    await queryCache.invalidateQueries("History");
+}
 
 export async function addComment() {}
 
