@@ -18,6 +18,8 @@ function UploadVideo() {
   async function handleUploadVideo(event) {
     event.persist();
     const file = event.target.files[0];
+    const defaultTitle = path.basename(file.name, path.extname(file.name));
+    setDefaultTitle(defaultTitle);
 
     if (file) {
       const fileSize = file.size / 1000000;
@@ -35,10 +37,8 @@ function UploadVideo() {
         preset: "vqawuu0a"
       });
 
-      const defaultTitle = path.basename(file.name, path.extname(file.name));
-      setDefaultTitle(defaultTitle);
       const extension = path.extname(url);
-      setThumbnail(url.replace(extension, 'jpg'));
+      setThumbnail(url.replace(extension, '.jpg'));
       setUrl(url);
       event.target.value = "";
     }
