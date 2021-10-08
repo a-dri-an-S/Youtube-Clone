@@ -40,7 +40,15 @@ export async function addVideo(video) {
     
 }
 
-export async function toggleSubscribeUser() {}
+export async function toggleSubscribeUser(channelId) {
+    await client.get(`/users/${channelId}/toggle-subscribe`);
+    await queryCache.invalidateQueries('Channel');
+    await queryCache.invalidateQueries('Channels');
+    await queryCache.invalidateQueries('Subscriptions');
+    await queryCache.invalidateQueries('AuthProvider');
+    await queryCache.invalidateQueries('WatchVideo');
+    await queryCache.invalidateQueries('SearchResults');
+}
 
 export async function likeVideo(videoId) {
     await client.get(`/videos/${videoId}/like`);
