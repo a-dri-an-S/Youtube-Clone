@@ -9,7 +9,7 @@ import VideoPlayer from "../components/VideoPlayer";
 import Button from "../styles/Button";
 import Skeleton from '../skeletons/WatchVideoSkeleton';
 import Wrapper from "../styles/WatchVideo";
-import { client } from "../utils/api-client";
+import { client, likeVideo } from "../utils/api-client";
 import { formatCreatedAt } from "../utils/date";
 import VideoCard from "../components/VideoCard";
 
@@ -34,7 +34,9 @@ function WatchVideo() {
     );
   }
 
-  console.log(video.user)
+  function handleLikeVideo(videoId){
+    likeVideo(videoId)
+  }
 
   return (
     <Wrapper filledLike={video && video.isLiked} filledDislike={video && video.isDisliked}>
@@ -54,7 +56,7 @@ function WatchVideo() {
 
             <div className="likes-dislikes flex-row">
               <p className="flex-row like">
-                <LikeIcon /> <span>{video.likesCount}</span>
+                <LikeIcon onClick={() => handleLikeVideo(video.id)}/> <span>{video.likesCount}</span>
               </p>
               <p className="flex-row dislike" style={{ marginLeft: "1rem" }}>
                 <DislikeIcon /> <span>{video.dislikesCount}</span>

@@ -42,7 +42,10 @@ export async function addVideo(video) {
 
 export async function toggleSubscribeUser() {}
 
-export async function likeVideo() {}
+export async function likeVideo(videoId) {
+    await client.get(`/videos/${videoId}/like`);
+    await queryCache.invalidateQueries(["WatchVideo", videoId]);
+}
 
 export async function dislikeVideo() {}
 
