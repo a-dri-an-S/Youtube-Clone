@@ -1,11 +1,14 @@
 import React from "react";
 import { LibIcon } from "../components/Icons";
 import SignUpCard from "../components/SignUpCard";
+import { useAuth } from "../context/auth-context";
+import History from "./History";
+import LikedVideos from "./LikedVideos";
 
 function Library() {
-  const isAuth = false;
+  const user = useAuth();
 
-  if (!isAuth) {
+  if (!user) {
     return (
       <SignUpCard
         icon={<LibIcon />}
@@ -15,7 +18,12 @@ function Library() {
     );
   }
 
-  return <>library</>;
+  return (
+    <>
+      <History />
+      <LikedVideos />
+    </>
+  );
 }
 
 export default Library;
