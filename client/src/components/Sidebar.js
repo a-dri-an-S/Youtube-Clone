@@ -14,8 +14,12 @@ import {
   VidIcon,
 } from "./Icons";
 import SidebarAuth from "./SidebarAuth";
+import { useAuth } from "../context/auth-context";
+import Subscriptions from "./Subscriptions";
 
 function Sidebar({ isSideBarOpen }) {
+  const user = useAuth();
+
   return (
     <Wrapper open={isSideBarOpen}>
       <NavLink exact to="/" activeClassName='active'>
@@ -71,7 +75,7 @@ function Sidebar({ isSideBarOpen }) {
 
       <div className="divider"></div>
 
-      <SidebarAuth />
+      {user ? <Subscriptions user={user}/> : <SidebarAuth />}
     </Wrapper>
   );
 }
