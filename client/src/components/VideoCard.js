@@ -5,7 +5,7 @@ import Wrapper from "../styles/VideoCard";
 import { formatCreatedAt } from "../utils/date";
 import DeleteVideoDropdown from "./DeleteVideoDropdown";
 
-function VideoCard({ video, hideAvatar }) {
+function VideoCard({ video, hideAvatar, noUsername }) {
   return (
     <Wrapper>
       <Link to={`/watch/${video.id}`}>
@@ -29,9 +29,9 @@ function VideoCard({ video, hideAvatar }) {
           <Link to={`/watch/${video.id}`}>
             <h4 className="truncate">{video.title}</h4>
           </Link>
-          <span>
+          {!noUsername && <Link to={`/channel/${video.user.id}`}>
             <span className="secondary">{video.user.username}</span>
-          </span>
+          </Link>}
           <p className="secondary leading-4">
             <span>{video.views} views</span> <span>•</span> <span>{formatCreatedAt(video.createdAt)}</span>
           </p>
