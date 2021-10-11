@@ -13,8 +13,8 @@ import useAuthAction from "../hooks/use-auth-action";
 import ChannelTabVideo from "../components/ChannelTabVideo";
 import ChannelTabChannels from "../components/ChannelTabChannels";
 import ChannelTabAbout from "../components/ChannelTabAbout";
-import Button from "../styles/Auth";
 import EditProfile from "../components/EditProfile";
+import Button from "../styles/Button";
 
 const activeTabStyle = {
   borderBottom: "2px solid white",
@@ -70,16 +70,16 @@ function Channel() {
               <span className="secondary">{channel.subscribersCount} subscribers</span>
             </div>
           </div>
+          {channel.isMe && <EditProfile profile={channel}/>}
+
+          {!channel.isMe && !channel.isSubscribed && (
+            <Button onClick={handleToggleSubscribe}>Subscribe</Button>
+          )}
+          {!channel.isMe && channel.isSubscribed && (
+            <Button grey onClick={handleToggleSubscribe}>Subscribed</Button>
+          )}
         </div>
 
-        {channel.isMe && <EditProfile profile={channel}/>}
-
-        {!channel.isMe && !channel.isSubscribed && (
-          <Button onClick={handleToggleSubscribe}>Subscribe</Button>
-        )}
-        {!channel.isMe && channel.isSubscribed && (
-          <Button grey onClick={handleToggleSubscribe}>Subscribed</Button>
-        )}
 
         <div className="tabs">
           <ul className="secondary">

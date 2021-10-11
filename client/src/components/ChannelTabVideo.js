@@ -9,7 +9,16 @@ function ChannelTabVideo({ videos }) {
 
   return (
     <Wrapper>
-      {videos.length ? videos.map(video => <VideoCard key={video.id} noUsername hideAvatar video={video}/>) : null}
+      <div className="videos">
+        {videos.map((video) => (
+          <VideoCard 
+            key={video.id} 
+            noUsername 
+            hideAvatar 
+            video={video}
+          />
+        ))}
+      </div>
     </Wrapper>
   );
 }
