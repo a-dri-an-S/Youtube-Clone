@@ -25,7 +25,11 @@ export async function signoutUser() {
     window.location.pathname = "/";
 }
 
-export async function updateUser() {}
+export async function updateUser(user) {
+    await client.put('/users', user);
+    await queryCache.invalidateQueries("Channel");
+
+}
 
 export async function addVideoView(videoId) {
     await client.get(`/videos/${videoId}/view`);
