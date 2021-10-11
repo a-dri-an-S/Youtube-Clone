@@ -69,4 +69,9 @@ export async function dislikeVideo(videoId) {
 
 export async function deleteVideo() {}
 
-export async function deleteComment() {}
+export async function deleteComment(comment) {
+    await client.delete(`/videos/${comment.videoId}/comments/${comment.id}`);
+    await queryCache.invalidateQueries("WatchVideo");
+
+
+}

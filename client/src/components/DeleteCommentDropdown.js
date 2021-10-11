@@ -1,10 +1,17 @@
 import { Menu, MenuButton, MenuItem, MenuList } from "@reach/menu-button";
 import "@reach/menu-button/styles.css";
 import React from "react";
+import { useAuth } from "../context/auth-context";
+import { deleteComment } from "../utils/api-client";
 import { DeleteIcon, SettingsIcon } from "./Icons";
 
 function DeleteCommentDropdown({ comment }) {
-  const isCommentAuthor = true;
+  const user = useAuth();
+  const isCommentAuthor = comment.userId === user?.id;
+
+  function handleDeleteComment() {
+    deleteComment(comment);
+  }
 
   if (isCommentAuthor) {
     return (
@@ -14,7 +21,7 @@ function DeleteCommentDropdown({ comment }) {
             <SettingsIcon />
           </MenuButton>
           <MenuList>
-            <MenuItem onSelect={() => null}>
+            <MenuItem onSelect={handleDeleteComment}>
               <DeleteIcon />
               <span>Delete Comment</span>
             </MenuItem>
