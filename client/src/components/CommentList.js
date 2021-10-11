@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Link } from "react-router-dom";
 import { formatCreatedAt } from "../utils/date";
 import DeleteCommentDropdown from "./DeleteCommentDropdown";
@@ -29,4 +29,4 @@ function Comment({ comment }) {
   );
 }
 
-export default CommentList;
+export default memo(CommentList);

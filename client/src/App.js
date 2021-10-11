@@ -18,7 +18,6 @@ import Container from "./styles/Container";
 import { useLocationChange } from "./hooks/use-location-change";
 
 function App() {
-
   const [isSideBarOpen, setSideBarOpen] = useState(false);
   const handleCloseSidebar = () => setSideBarOpen(false);
   const toggleSidebarOpen = () => setSideBarOpen(!isSideBarOpen);
